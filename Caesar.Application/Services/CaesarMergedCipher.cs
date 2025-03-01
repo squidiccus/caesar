@@ -27,7 +27,6 @@ public class CaesarMergedCipher : Cipher
         StringBuilder sb = new StringBuilder();
         foreach (char c in props.Content)
         {
-            Console.WriteLine($"Encrypting {c}");
             if (AlphabetMap.TryGetValue(c, out int lower))
             {
                 int index = (lower + shift) % AlphabetCount;
@@ -66,7 +65,6 @@ public class CaesarMergedCipher : Cipher
         StringBuilder sb = new StringBuilder();
         foreach (char c in props.Content)
         {
-            Console.WriteLine($"Decrypting {c}");
             if (AlphabetMap.TryGetValue(c, out int lower))
             {
                 int index = (lower - shift + AlphabetCount) % AlphabetCount;
