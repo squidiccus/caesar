@@ -14,10 +14,16 @@ public class TestCaesar
         string content = "Hello World";
         string operation = Args.Encrypt;
         int shift = 5;
-        Props props = new Props(content, operation, shift);
+        Props props = new Props(content, operation)
+        {
+            CaesarProps = new CaesarProps(shift)
+        };
         Cipher service = CipherFactory.Get(Args.Caesar);
         string result = service.DoOperation(props);
-        Props decryptedProps = new Props(result, Args.Decrypt, shift);
+        Props decryptedProps = new Props(result, Args.Decrypt)
+        {
+            CaesarProps = new CaesarProps(shift)
+        };
         string decryptedResult = service.DoOperation(decryptedProps);
     }
 
@@ -41,7 +47,10 @@ public class TestCaesar
                           """;
         string operation = Args.Encrypt;
         int shift = 7;
-        Props props = new Props(content, operation, shift);
+        Props props = new Props(content, operation)
+        {
+            CaesarProps = new CaesarProps(shift)
+        };
         Cipher service = CipherFactory.Get(Args.Caesar);
         Assert.Equal(expected, service.DoOperation(props));
     }

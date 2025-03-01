@@ -1,6 +1,7 @@
 ﻿using Caesar.Application.Constants;
+using Caesar.Application.Model;
 
-namespace Caesar.Application.Model;
+namespace Caesar.Application.Services;
 
 public abstract class Cipher
 {

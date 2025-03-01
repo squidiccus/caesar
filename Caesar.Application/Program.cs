@@ -26,9 +26,10 @@ public static class Program
         string operation = args[1].ToLower(); // Operation is positional, second argument
         string cipher = "caesar"; // Default cipher is caesar if not specified
         int shiftValue = 3; // Default Caesar shift value
+        string keyValue = "key"; // Default XOR key value
         string? outputFilePath = null; // Output filepath is initially null, meaning output to console
 
-        Dictionary<string, string> namedArguments = ArgumentParser.ExtractNamedArguments(args);
+        Dictionary<string, string?> namedArguments = ArgumentParser.ExtractNamedArguments(args);
 
         if (namedArguments.TryGetValue(Args.Cipher, out string? argument))
         {
@@ -49,6 +50,11 @@ public static class Program
             }
         }
 
+        if (namedArguments.TryGetValue(Args.Key, out string? keyArgument))
+        {
+            keyValue = keyArgument;
+        }
+
         if (namedArguments.TryGetValue("output", out string? argument1))
         {
             outputFilePath = argument1;
@@ -59,16 +65,36 @@ public static class Program
             return;
         }
 
+        string content = File.ReadAllText(inputFilePath);
+
+
         string processedContent = string.Empty; // To store encrypted/decrypted content
+
+        Props props = new Props(content, operation);
+
+        switch (cipher)
+        {
+            case Args.Caesar:
+                props.CaesarProps = new CaesarProps(shiftValue);
+                break;
+            case Args.CaesarMerged:
+                props.CaesarProps = new CaesarProps(shiftValue);
+                break;
+            case Args.Xor:
+                props.XorProps = new XorProps(keyValue);
+                break;
+            default:
+                Console.WriteLine($"Error: Unsupported cipher: {cipher}");
+                return;
+        }
 
         try
         {
-            string content = File.ReadAllText(inputFilePath);
             Console.WriteLine($"File content read successfully from: {inputFilePath}");
             Console.WriteLine($"Operation: {operation}");
             Console.WriteLine($"Cipher: {cipher}");
             Cipher cipherService = CipherFactory.Get(cipher);
-            processedContent = cipherService.DoOperation(new Props(content, operation, shiftValue));
+            processedContent = cipherService.DoOperation(props);
 
             if (outputFilePath != null)
             {
@@ -101,22 +127,23 @@ public static class Program
         {
             Console.WriteLine($"Error: Invalid operation argument: '{operation}'.");
             Console.WriteLine("Operation argument must be either 'encrypt' or 'decrypt'.");
-            Help.PrintUsage();
             return true;
         }
 
         if (!cipher.IsValidCipher())
         {
             Console.WriteLine($"Error: Invalid cipher argument: '{cipher}'.");
-            Console.WriteLine("Cipher argument must be.");
-            Help.PrintUsage();
+            Console.WriteLine("Cipher argument must be in the set.");
+            foreach (string s in ArgumentValidationExtensions.ValidCiphers)
+            {
+                Console.Write($"::{s}::");
+            }
             return true;
         }
 
         if ((cipher == Args.Caesar || cipher == Args.CaesarMerged) && shiftValue < 0)
         {
             Console.WriteLine("Error: Shift value must be a non-negative integer.");
-            Help.PrintUsage();
             return true;
         }
 

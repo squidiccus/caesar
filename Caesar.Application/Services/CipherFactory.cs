@@ -11,6 +11,7 @@ public static class CipherFactory
         {
             Args.Caesar => new CaesarCipher(),
             Args.CaesarMerged => new CaesarMergedCipher(),
+            Args.Xor => new XorCipher(),
             _ => throw new ArgumentException("Invalid cipher")
         };
     }

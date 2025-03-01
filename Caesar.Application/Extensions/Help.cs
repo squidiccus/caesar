@@ -16,10 +16,11 @@ public static class Help
                              - Caesar: Shifts each letter in the input text by a fixed number of positions with separate alphabets for upper and lower case.
                              - Caesar-Merged: Shifts each letter in the input text by a fixed number of positions, 
                                the alphabet is alphanumeric and merges upper, lower and numbers into a single alphabet.
+                             - XOR: Encrypts or decrypts the input text using a key and the XOR operation.
 
                            Arguments:
                              <inputFilePath>      Path to the input file to be processed. Must be a valid file.
-                             <encrypt|decrypt>      Specifies the operation to be performed.
+                             <encrypt|decrypt>    Specifies the operation to be performed.
                                                   Use 'encrypt' to indicate encryption, or 'decrypt'
                                                   for decryption.
                              [-c <cipher> | --cipher <cipher>]
@@ -31,6 +32,9 @@ public static class Help
                              [-o <outputFilePath> | --output <outputFilePath>]
                                                  (Optional) Path to the output file where the processed content will be written.
                                                  If not provided, output will be written to the console.
+                             [-h | --help]        Displays this help message.
+                             [-k <key> | --key <key>] (Optional for XOR cipher) The key to use for encryption/decryption.
+                                                 Must be a string of characters. If not provided, defaults to 'key'.
 
                            Error Handling:
                              The program provides clear error messages for the following cases:

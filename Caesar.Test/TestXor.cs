@@ -5,24 +5,24 @@ using Caesar.Application.Services;
 
 namespace Caesar.Test;
 
-public class TestCaesarMerged
+public class TestXor
 {
     [Fact]
     public void TestSimple()
     {
         // Arrange
-        const string content = "Hello Worldvæåoaufnvoadnsfv089u92384towiu890qp84759038";
-        const string operation = Args.Encrypt;
-        const int shift = 5;
+        string content = "Hello World";
+        string operation = Args.Encrypt;
+        string key = "abc";
         Props props = new Props(content, operation)
         {
-            CaesarProps = new CaesarProps(shift)
+            XorProps = new XorProps(key)
         };
-        Cipher service = CipherFactory.Get(Args.CaesarMerged);
+        Cipher service = CipherFactory.Get(Args.Xor);
         string result = service.DoOperation(props);
         Props decryptedProps = new Props(result, Args.Decrypt)
         {
-            CaesarProps = new CaesarProps(shift)
+            XorProps = new XorProps(key)
         };
         string decryptedResult = service.DoOperation(decryptedProps);
     }
