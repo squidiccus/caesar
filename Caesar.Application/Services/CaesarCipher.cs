@@ -19,6 +19,11 @@ public class CaesarCipher : Cipher
         }
         int shift = props.CaesarProps.Shift % AlphabetCount;
 
+        if (shift < 0)
+        {
+            shift += AlphabetCount;
+        }
+
         Console.WriteLine($"Encrypting using {Args.Caesar} cipher with shift {props.CaesarProps.Shift} {shift}...");
         StringBuilder sb = new StringBuilder();
         foreach (char c in props.Content)
@@ -54,6 +59,11 @@ public class CaesarCipher : Cipher
         }
 
         int shift = props.CaesarProps.Shift % AlphabetCount;
+
+        if (shift < 0)
+        {
+            shift += AlphabetCount;
+        }
 
         Console.WriteLine($"Decrypting using {Args.Caesar} cipher with shift {props.CaesarProps.Shift} {shift}...");
 

@@ -18,6 +18,11 @@ public class CaesarMergedCipher : Cipher
 
         int shift = props.CaesarProps.Shift % AlphabetCount;
 
+        if (shift < 0)
+        {
+            shift += AlphabetCount;
+        }
+
         Console.WriteLine($"Encrypting using {Args.Caesar} cipher with shift {props.CaesarProps.Shift}...");
         StringBuilder sb = new StringBuilder();
         foreach (char c in props.Content)
@@ -50,6 +55,11 @@ public class CaesarMergedCipher : Cipher
 
         Console.WriteLine($"Decrypting using {Args.Caesar} cipher with CaesarProps.Shift {props.CaesarProps.Shift}...");
         int shift = props.CaesarProps.Shift % AlphabetCount;
+
+        if (shift < 0)
+        {
+            shift += AlphabetCount;
+        }
 
         Console.WriteLine(props.Content);
 

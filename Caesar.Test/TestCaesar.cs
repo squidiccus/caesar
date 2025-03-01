@@ -56,4 +56,70 @@ public class TestCaesar
     }
 
 
+    [Fact]
+    public void TestNegative()
+    {
+        // Arrange
+        string content = """abc""";
+        string expected = """øå """;
+        string operation = Args.Encrypt;
+        int shift = -3;
+        Props props = new Props(content, operation)
+        {
+            CaesarProps = new CaesarProps(shift)
+        };
+        Cipher service = CipherFactory.Get(Args.Caesar);
+        Assert.Equal(expected, service.DoOperation(props));
+        props = new Props(expected, Args.Decrypt)
+        {
+            CaesarProps = new CaesarProps(shift)
+        };
+        Assert.Equal(content, service.DoOperation(props));
+    }
+
+    [Fact]
+    public void TestBigNegative()
+    {
+        // Arrange
+        string content = """abc""";
+        string expected = """øå """;
+        string operation = Args.Encrypt;
+        // should be same as alphabet length is 30 with the space
+        int shift = -33;
+        Props props = new Props(content, operation)
+        {
+            CaesarProps = new CaesarProps(shift)
+        };
+        Cipher service = CipherFactory.Get(Args.Caesar);
+        Assert.Equal(expected, service.DoOperation(props));
+        props = new Props(expected, Args.Decrypt)
+        {
+            CaesarProps = new CaesarProps(shift)
+        };
+        Assert.Equal(content, service.DoOperation(props));
+    }
+
+    [Fact]
+    public void TestBig()
+    {
+        // Arrange
+        string content = """abc""";
+        string expected = """def""";
+        string operation = Args.Encrypt;
+        // should be same as alphabet length is 30 with the space
+        int shift = 33;
+        Props props = new Props(content, operation)
+        {
+            CaesarProps = new CaesarProps(shift)
+        };
+        Cipher service = CipherFactory.Get(Args.Caesar);
+        Assert.Equal(expected, service.DoOperation(props));
+        props = new Props(expected, Args.Decrypt)
+        {
+            CaesarProps = new CaesarProps(shift)
+        };
+        Assert.Equal(content, service.DoOperation(props));
+    }
+
+
 }

@@ -141,12 +141,6 @@ public static class Program
             return true;
         }
 
-        if ((cipher == Args.Caesar || cipher == Args.CaesarMerged) && shiftValue < 0)
-        {
-            Console.WriteLine("Error: Shift value must be a non-negative integer.");
-            return true;
-        }
-
         return false;
     }
 }
