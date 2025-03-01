@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Caesar.Application.Constants;
 using Caesar.Application.Model;
 
@@ -16,6 +16,8 @@ public class CaesarMergedCipher : Cipher
             throw new ArgumentException("CaesarProps is null");
         }
 
+        int shift = props.CaesarProps.Shift % AlphabetCount;
+
         Console.WriteLine($"Encrypting using {Args.Caesar} cipher with shift {props.CaesarProps.Shift}...");
         StringBuilder sb = new StringBuilder();
         foreach (char c in props.Content)
@@ -23,7 +25,7 @@ public class CaesarMergedCipher : Cipher
             Console.WriteLine($"Encrypting {c}");
             if (AlphabetMap.TryGetValue(c, out int lower))
             {
-                int index = (lower + props.CaesarProps.Shift) % AlphabetCount;
+                int index = (lower + shift) % AlphabetCount;
                 sb.Append(Alphabet[index]);
             }
             else if (char.IsWhiteSpace(c))
@@ -47,6 +49,7 @@ public class CaesarMergedCipher : Cipher
         }
 
         Console.WriteLine($"Decrypting using {Args.Caesar} cipher with CaesarProps.Shift {props.CaesarProps.Shift}...");
+        int shift = props.CaesarProps.Shift % AlphabetCount;
 
         Console.WriteLine(props.Content);
 
@@ -56,7 +59,7 @@ public class CaesarMergedCipher : Cipher
             Console.WriteLine($"Decrypting {c}");
             if (AlphabetMap.TryGetValue(c, out int lower))
             {
-                int index = (lower - props.CaesarProps.Shift + AlphabetCount) % AlphabetCount;
+                int index = (lower - shift + AlphabetCount) % AlphabetCount;
                 sb.Append(Alphabet[index]);
             }
             else if (char.IsWhiteSpace(c))
