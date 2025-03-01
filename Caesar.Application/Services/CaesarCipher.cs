@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Caesar.Application.Constants;
 using Caesar.Application.Model;
 
@@ -17,19 +17,20 @@ public class CaesarCipher : Cipher
         {
             throw new ArgumentException("CaesarProps is null");
         }
+        int shift = props.CaesarProps.Shift % AlphabetCount;
 
-        Console.WriteLine($"Encrypting using {Args.Caesar} cipher with shift {props.CaesarProps.Shift}...");
+        Console.WriteLine($"Encrypting using {Args.Caesar} cipher with shift {props.CaesarProps.Shift} {shift}...");
         StringBuilder sb = new StringBuilder();
         foreach (char c in props.Content)
         {
             if (AlphabetLowerMap.TryGetValue(c, out int lower))
             {
-                int index = (lower + props.CaesarProps.Shift) % AlphabetCount;
+                int index = (lower + shift) % AlphabetCount;
                 sb.Append(AlphabetLower[index]);
             }
             else if (AlphabetUpperMap.TryGetValue(c, out int upper))
             {
-                int index = (upper + props.CaesarProps.Shift) % AlphabetCount;
+                int index = (upper + shift) % AlphabetCount;
                 sb.Append(AlphabetUpper[index]);
             }
             else if (char.IsWhiteSpace(c))
@@ -52,19 +53,22 @@ public class CaesarCipher : Cipher
             throw new ArgumentException("CaesarProps is null");
         }
 
-        Console.WriteLine($"Decrypting using {Args.Caesar} cipher with shift {props.CaesarProps.Shift}...");
+        int shift = props.CaesarProps.Shift % AlphabetCount;
+
+        Console.WriteLine($"Decrypting using {Args.Caesar} cipher with shift {props.CaesarProps.Shift} {shift}...");
+
 
         StringBuilder sb = new StringBuilder();
         foreach (char c in props.Content)
         {
             if (AlphabetLowerMap.TryGetValue(c, out int lower))
             {
-                int index = (lower - props.CaesarProps.Shift + AlphabetCount) % AlphabetCount;
+                int index = (lower - shift + AlphabetCount) % AlphabetCount;
                 sb.Append(AlphabetLower[index]);
             }
             else if (AlphabetUpperMap.TryGetValue(c, out int upper))
             {
-                int index = (upper - props.CaesarProps.Shift + AlphabetCount) % AlphabetCount;
+                int index = (upper - shift + AlphabetCount) % AlphabetCount;
                 sb.Append(AlphabetUpper[index]);
             }
             else if (char.IsWhiteSpace(c))
